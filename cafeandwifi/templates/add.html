@@ -1,0 +1,29 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include 'header.html' %}
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                  <div class="container">
+                    <div class="row justify-content-md-center">
+                      <div class="col-sm-12 col-md-8" id="add_cafe_text">
+
+                        <h1 class="text-center" id="add_cafe">Add a new cafe into the database</h1>
+                          <div class="col text-center">
+                              <!-- This is where your WTForm will go -->
+                              {{ wtf.quick_form(form, novalidate=True) }}
+                          </div>
+                      </div>
+                       <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center">
+                                    <a class="btn btn-primary" href="{{ url_for('cafes') }}">See all cafes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </header>
+
+{% include 'footer.html' %}

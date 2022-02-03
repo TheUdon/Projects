@@ -1,0 +1,45 @@
+
+{% include 'header.html' %}
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm-12">
+
+                              <h1 id="all_cafes_text">All Cafes</h1>
+                              <table class="table" id="all_cafes">
+                                  <thead>
+                                      <tr>
+                                        <th>Cafe</th>
+                                        <th>Location</th>
+                                        <th>Coffee Price</th>
+                                        <th>Number of Seats</th>
+                                        <th>Has Sockets</th>
+                                        <th>Has Wifi</th>
+                                        <th>Has a Bathroom</th>
+                                      </tr>
+                                    </thead>
+                                  {% for x in range(cafes|length) %}
+                                      <tr>
+                                          <td><a href="{{ cafes[x+1]['url'] }}">{{ cafes[x+1]['name'] }}</a></td>
+                                          <td>{{ cafes[x+1]['location'] }}</td>
+                                          <td>{{ cafes[x+1]['Coffee Price'] }}</td>
+                                          <td>{{ cafes[x+1]['Seats'] }}</td>
+                                          <td>{{ cafes[x+1]['Has Sockets'] }}</td>
+                                          <td>{{ cafes[x+1]['Has Wifi'] }}</td>
+                                          <td>{{ cafes[x+1]['Has Bathroom'] }}</td>
+                                      </tr>
+                                  {% endfor %}
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+{% include 'footer.html' %}
