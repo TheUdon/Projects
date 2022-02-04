@@ -1,0 +1,56 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include 'header.html' %}
+
+    <body>
+        <div class="d-flex" id="wrapper">
+             <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                <div class="sidebar-heading border-bottom bg-light">To Do List</div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ url_for('tasks', user=user)}}">Tasks</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ url_for('user', user=user)}}">Create a Task</a>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button class="btn btn-primary" id="sidebarToggle">Menu</button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item active"><a class="nav-link" href="{{ url_for('signout')}}">Sign Out</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h1 class="mt-4 text-center">Task List</h1>
+                </div>
+                <div class="list-group form-pad">
+                    {% for task in tasks %}
+                      <div>
+                          <a class="list-group-item list-group-item-action" aria-current="true">
+                            <div class="d-flex w-100 justify-content-between">
+                              <h5 class="mb-1">{{task.task_name}}</h5>
+                              <small><strong>{{str(dt.datetime.strptime(task.due_date, '%Y-%m-%d').date() - current_day)[:-9]}} left</strong></small>
+                            </div>
+                            <p class="mb-1"><i><strong>Note</strong></i>: {{task.note}}.</p>
+                            <div class="d-flex w-100 justify-content-between">
+                                <small><strong>Due: {{task.due_date}}</strong></small>
+                            </div>
+                          </a>
+                          <small><a class="btn btn-primary" href="{{ url_for('remove', task_id=task.id, user=user)}}">
+                                Completed
+                            </a></small>
+                      </div>
+                <hr>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+ {% include 'footer.html' %}
