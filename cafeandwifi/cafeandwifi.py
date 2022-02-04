@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, Form
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired, URL
 import random
@@ -45,13 +45,14 @@ class Cafe(db.Model):
 
 class CafeForm(FlaskForm):
     cafe = StringField('Cafe name', validators=[DataRequired()])
-    lcoation = StringField('Cafe Location of Google Maps (URL)', validators=[DataRequired(), URL(message="Invalid URL")])
-    opening_time = StringField('Opening Time e.g. 8AM', validators=[DataRequired()])
-    closing_time = StringField('Closing Time 5:30PM', validators=[DataRequired()])
-    coffee_rating = SelectField('Coffee Rating', choices=["☕", "☕☕", "☕☕☕", "☕☕☕☕", "☕☕☕☕☕"], validators=[DataRequired()])
-    will_strength = SelectField('Will Strength Rating', choices=["💪", "💪💪", "💪💪💪", "💪💪💪💪", "💪💪💪💪💪"], validators=[DataRequired()])
-    power_socket = SelectField('Power Socket Availability', choices=["🔌", "🔌🔌", "🔌🔌🔌", "🔌🔌🔌🔌", "🔌🔌🔌🔌🔌"], validators=[DataRequired()])
-    toilet = SelectField('Has a bathroom', choices=["Yes", "No"], validators=[DataRequired()])
+    location = StringField('Cafe Location', validators=[DataRequired()])
+    url = StringField('Google Maps (URL)', validators=[DataRequired(), URL(message="Invalid URL")])
+    img_url = StringField('Photo of Cafe (URL)', validators=[DataRequired(), URL(message="Invalid URL")])
+    coffee_price = StringField('How much is a coffee?', validators=[DataRequired()])
+    power_socket = SelectField('Has a Power Sockets', choices=["Yes", "No"], validators=[DataRequired()])
+    wifi = SelectField('Has a Wifi', choices=["Yes", "No"], validators=[DataRequired()])
+    toilet = SelectField('Has a Bathroom', choices=["Yes", "No"], validators=[DataRequired()])
+    calls = SelectField('Can Take Calls', choices=["Yes", "No"], validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 # all Flask routes below
@@ -64,14 +65,32 @@ def home():
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
+        print(request.form["cafe"])
+        if request.form.get("power_socket") == "Yes":
+            has_sockets = 1
+        elif request.form.get("power_socket") == "No":
+            has_sockets = 0
+        if request.form.get("toilet") == "Yes":
+            has_toilet = 1
+        elif request.form.get("toilet") == "No":
+            has_toilet = 0
+        if request.form.get("wifi") == "Yes":
+            has_wifi = 1
+        elif request.form.get("wifi") == "No":
+            has_wifi = 0
+        if request.form.get("calls") == "Yes":
+            can_take_calls = 1
+        elif request.form.get("calls") == "No":
+            can_take_calls = 0
         new_cafe = Cafe(
-            name=request.form.get("name"),
-            map_url=request.form.get("map_url"),
-            location=request.form.get("loc"),
-            has_sockets=bool(request.form.get("sockets")),
-            has_toilet=bool(request.form.get("toilet")),
-            has_wifi=bool(request.form.get("wifi")),
-            can_take_calls=bool(request.form.get("calls")),
+            name=request.form.get("cafe"),
+            map_url=request.form.get("url"),
+            img_url=request.form.get("img_url"),
+            location=request.form.get("location"),
+            has_sockets=has_sockets,
+            has_toilet=has_toilet,
+            has_wifi=has_wifi,
+            can_take_calls=can_take_calls,
             seats=request.form.get("seats"),
             coffee_price=request.form.get("coffee_price"),
         )
