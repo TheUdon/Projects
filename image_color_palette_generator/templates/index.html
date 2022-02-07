@@ -1,0 +1,57 @@
+{% include 'header.html' %}
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h1 class="mt-4">Hello welcome to the image color palette generator!</h1>
+                    <p>Here you can upload an image and see the top 10 most common colors in the image!</p>
+                    <p>It might take a minute to generate please wait a minute or so!</p>
+                    <p>When it is done please check below the image.</p>
+                    <p>
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                            <ul>
+                            {% for message in messages %}
+                              <li>{{ message }}</li>
+                            {% endfor %}
+                            </ul>
+                          {% endif %}
+                        {% endwith %}
+                    </p>
+                    {% if filename %}
+                        <div>
+                            <img src="{{ url_for('display_image', filename=filename) }}">
+                        </div>
+                        <p>Top 10 palettes used in this image:</p>
+                        <ul>
+                        {% for palette in top_10 %}
+                            <li><input type="color" id="colorpicker" value="{{ palette[0] }}">  {{ palette[0] }}  used {{ palette[1] }} times.</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <form method="post" action="/" enctype="multipart/form-data">
+                        <dl>
+                            <p>
+                                <input type="file" name="file" autocomplete="off" required>
+                            </p>
+                        </dl>
+                        <p>
+                            <input type="submit" value="Submit">
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% include 'footer.html' %}
