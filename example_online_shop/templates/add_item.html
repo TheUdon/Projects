@@ -1,0 +1,8 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include 'header.html' %}
+    <h1 class="text-center" style="padding: 3% 0%">Add a new item into the database</h1>
+      <div class="col text-center" style="padding: 0% 25% 3%">
+          <!-- This is where your WTForm will go -->
+          {{ wtf.quick_form(form, novalidate=True) }}
+      </div>
+{% include 'footer.html' %}
